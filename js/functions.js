@@ -2,7 +2,7 @@
 const isLessOrEqual = (testString, amountSymbols) =>
   testString.length <= amountSymbols;
 console.log(isLessOrEqual('опа', 2));
-/*
+
 const isPalindrome = (text) => {
   const normalizedText = text
     .replaceAll(' ', '')
@@ -13,4 +13,4 @@ const isPalindrome = (text) => {
   }
   return normalizedText === reversedText;
 };
-*/
+
