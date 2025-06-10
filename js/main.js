@@ -33,6 +33,7 @@ const getDesc = (i) =>{
     id: i,
     url:`photos/${i}.jpg`,
     description: getRandomArrayElement(description),
+    likes: getRandomPositiveInteger(15,200),
     comments: getComments()
   };
   return Desc;
