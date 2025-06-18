@@ -12,19 +12,14 @@ const isPalindrome = (text) => {
   }
   return normalizedText === reversedText;
 };
-const getTimeConv = (time) => {
+const getTimeInMinutes = (time) => {
   const timelist = time.split(':');
-  const finalResult = Number(timelist[0]) * 60 + Number(timelist[1]);
-  return finalResult;
+  const timeInMinutes = Number(timelist[0]) * 60 + Number(timelist[1]);
+  return timeInMinutes;
 };
 //console.log(getTimeConv('00:01'));
 
-const isWorkTime = (startDate, endDate, startMeet, durationMeet) =>{
-  const duration = durationMeet + getTimeConv(startMeet);
-  if(getTimeConv(startDate) <= duration && duration <= getTimeConv(endDate)){
-    return true;
-  }else {
-    return false;
-  }
+const isWorkTime = (startTime, endTime, startMeet, durationMeet) =>{
+  const endMeetInMinutes = durationMeet + getTimeInMinutes(startMeet);
+  return getTimeInMinutes(startTime) <= endMeetInMinutes && endMeetInMinutes <= getTimeInMinutes(endTime);
 };
-
