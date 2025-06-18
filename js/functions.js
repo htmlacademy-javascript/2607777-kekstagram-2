@@ -1,7 +1,6 @@
 
 const isLessOrEqual = (testString, amountSymbols) =>
   testString.length <= amountSymbols;
-console.log(isLessOrEqual('опа', 2));
 
 const isPalindrome = (text) => {
   const normalizedText = text
@@ -13,4 +12,14 @@ const isPalindrome = (text) => {
   }
   return normalizedText === reversedText;
 };
+const getTimeInMinutes = (time) => {
+  const timelist = time.split(':');
+  const timeInMinutes = Number(timelist[0]) * 60 + Number(timelist[1]);
+  return timeInMinutes;
+};
+//console.log(getTimeConv('00:01'));
 
+const isWorkTime = (startTime, endTime, startMeet, durationMeet) =>{
+  const endMeetInMinutes = durationMeet + getTimeInMinutes(startMeet);
+  return getTimeInMinutes(startTime) <= endMeetInMinutes && endMeetInMinutes <= getTimeInMinutes(endTime);
+};
