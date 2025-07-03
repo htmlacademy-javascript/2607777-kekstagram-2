@@ -1,2 +1,3 @@
-import {getPhotoDesc} from './createdesc.js';
-getPhotoDesc();
+import {renderPhoto} from './render-photo.js';
+
+renderPhoto();
