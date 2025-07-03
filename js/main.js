@@ -1,3 +1,3 @@
-import {renderPhoto} from './popup.js';
+import {renderPhoto} from './render-photo.js';
 
 renderPhoto();
