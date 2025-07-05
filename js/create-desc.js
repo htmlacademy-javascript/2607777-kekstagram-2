@@ -56,5 +56,6 @@ const getPhotoDesc = () =>{
   }
   return photoListDesc;
 };
+//Добавил формирование коллекции, для работы нескольких модулей над одной коллекцией данных
+export const photos = getPhotoDesc();
 
-export {getPhotoDesc};
