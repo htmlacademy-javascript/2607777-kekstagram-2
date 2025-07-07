@@ -1,4 +1,3 @@
-
 const isLessOrEqual = (testString, amountSymbols) =>
   testString.length <= amountSymbols;
 
