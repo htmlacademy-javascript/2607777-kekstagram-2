@@ -10,8 +10,8 @@ const names = ['Андрей', 'Олег', 'Михаил', 'Ксения', 'Ма
 
 const getUniqueItem = () => {
   for (let i = messages.length - 1; i > 0; i -= 1) {
-    const j = Math.floor(Math.random() * (i + 1)); // случайный индекс от 0 до i
-    [messages[i], messages[j]] = [messages[j], messages[i]]; // меняем местами элементы
+    const j = Math.floor(Math.random() * (i + 1));
+    [messages[i], messages[j]] = [messages[j], messages[i]];
   }
   return messages[0] + messages[1];
 };
@@ -56,6 +56,6 @@ const getPhotoDesc = () =>{
   }
   return photoListDesc;
 };
-//Добавил формирование коллекции, для работы нескольких модулей над одной коллекцией данных
+
 export const photos = getPhotoDesc();
 

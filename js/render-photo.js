@@ -1,11 +1,10 @@
-import {photos} from './create-desc.js'; // импортировал коллецию созданную в модуле create-desc
+import {photos} from './create-desc.js';
 import { openBigPicture } from './render-big-photo.js';
-//export const renderPhoto = () => {
-//Убрал формирование коллекции с нуля
+
 const template = document.querySelector('#picture').content.querySelector('.picture');
 const container = document.querySelector('.pictures');
 const fragment = document.createDocumentFragment();
-//Теперь цикл идет по массиву сгенерированному в модуле create-desc
+
 export const renderPhoto = () => {
   photos.forEach((photo) => {
     const thumbnail = template.cloneNode(true);
