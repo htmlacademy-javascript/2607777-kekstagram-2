@@ -1,5 +1,6 @@
 import {photos} from './create-desc.js';
 import { openBigPicture } from './render-big-photo.js';
+//import { onPhotoSelect } from './img-form-uploader.js';
 
 const template = document.querySelector('#picture').content.querySelector('.picture');
 const container = document.querySelector('.pictures');
