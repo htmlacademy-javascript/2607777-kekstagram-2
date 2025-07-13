@@ -1,5 +1,5 @@
-import { photos } from './create-desc';
-import { clearComments, renderComments } from './render-comments-photo';
+import { photos } from './create-desc.js';
+import { clearComments, renderComments } from './render-comments-photo.js';
 
 const bigPictureNode = document.querySelector('.big-picture');
 const bigPictureImgNode = bigPictureNode.querySelector('.big-picture__img').querySelector('img');
