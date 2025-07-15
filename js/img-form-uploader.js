@@ -1,11 +1,12 @@
 import {isEscapeKey} from './util.js';
-import {error, isHashtagsValid} from './hashtag-validator.js';
+import {getError, isHashtagsValid, isCommentValid} from './validator.js';
 
 const imgUploadForm = document.querySelector('.img-upload__form');
 const uploadOverlay = imgUploadForm.querySelector('.img-upload__overlay');
 const uploadFile = imgUploadForm.querySelector('#upload-file');
 const imgUploadCancel = imgUploadForm.querySelector('.img-upload__cancel');
 const inputHashtag = imgUploadForm.querySelector('.text__hashtags');
+const inputText = imgUploadForm.querySelector('.text__description');
 
 const pristine = new Pristine(imgUploadForm, {
   classTo: 'img-upload__form',
@@ -38,12 +39,20 @@ const onPhotoSelect = () =>{
   document.addEventListener('keydown', onEscapeKeydown);
 };
 
-const onHashTagInput = () => {
+const handleTagChange = () => {
   isHashtagsValid(inputHashtag.value);
 };
 
-pristine.addValidator(inputHashtag, isHashtagsValid, error, 2, false);
+const handleTextChange = () => {
+  isCommentValid(inputText.value);
+};
+
+pristine.addValidator(inputHashtag, isHashtagsValid, getError, 2, false);
+
+pristine.addValidator(inputText, isCommentValid, getError, 2, false);
 
 uploadFile.addEventListener('change', onPhotoSelect);
 
-inputHashtag.addEventListener('change', onHashTagInput);
+inputHashtag.addEventListener('change', handleTagChange);
+
+inputText.addEventListener('change', handleTextChange);

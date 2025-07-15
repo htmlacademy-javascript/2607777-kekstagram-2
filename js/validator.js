@@ -1,14 +1,17 @@
-import { numDecline } from './util.js';
+import { getCorrectFormWord } from './util.js';
 
-const MAX_HASHTAGS = 5;
-const MAX_SYMBOLS = 20;
+const settings = {
+  MAX_HASHTAGS: 5,
+  MAX_SYMBOLS_HASHTAG : 20,
+  MAX_SYMBOLS_COMMENT: 140
+};
 
-let errorMessage = '';
+let getErrorMessage = '';
 
-export const error = () => errorMessage;
+export const getError = () => getErrorMessage;
 
 export const isHashtagsValid = (value) => {
-  errorMessage = '';
+  getErrorMessage = '';
 
   const inputText = value.toLowerCase().trim();
 
@@ -36,13 +39,13 @@ export const isHashtagsValid = (value) => {
       error:'Хештеги не должны повторяться'
     },
     {
-      check:inputArray.some((item) => item.length > MAX_SYMBOLS),
-      error:`Максимальная длина одного хештега ${MAX_SYMBOLS} символов, включая решетку`
+      check:inputArray.some((item) => item.length > settings.MAX_SYMBOLS_HASHTAG),
+      error:`Максимальная длина одного хештега ${settings.MAX_SYMBOLS_HASHTAG} символов, включая решетку`
     },
     {
-      check:inputArray.length > MAX_HASHTAGS,
-      error: `Нельзя указать больше ${MAX_HASHTAGS} ${numDecline(
-        MAX_HASHTAGS,'хештега', 'хештегов', 'хештегов'
+      check:inputArray.length > settings.MAX_HASHTAGS,
+      error: `Нельзя указать больше ${settings.MAX_HASHTAGS} ${getCorrectFormWord(
+        settings.MAX_HASHTAGS,'хештега', 'хештегов', 'хештегов'
       )}`,
     },
     {
@@ -54,8 +57,27 @@ export const isHashtagsValid = (value) => {
   return rules.every((rule) => {
     const isInvalid = rule.check;
     if(isInvalid) {
-      errorMessage = rule.error;
+      getErrorMessage = rule.error;
     }
     return !isInvalid;
   });
+};
+
+export const isCommentValid = (value) =>{
+  getErrorMessage = '';
+
+  if(!value) {
+    return true;
+  }
+
+  const rule = {
+    check: value.length >= settings.MAX_SYMBOLS_COMMENT,
+    error:'Длина текста должна быть меньше или равна 140 символов'
+  };
+  const isInvalid = rule.check;
+  if(isInvalid) {
+    getErrorMessage = rule.error;
+  }
+  return !isInvalid;
+
 };
