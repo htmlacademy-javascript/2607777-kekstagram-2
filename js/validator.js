@@ -1,4 +1,4 @@
-import { getCorrectFormWord } from './util.js';
+import { selectWordByCount } from './util.js';
 
 const settings = {
   MAX_HASHTAGS: 5,
@@ -19,37 +19,37 @@ export const isHashtagsValid = (value) => {
     return true;
   }
 
-  const inputArray = inputText.split(/\s+/);
+  const inputConcatenatedText = inputText.split(/\s+/);
 
   const rules = [
     {
-      check:inputArray.some((item) => item === '#'),
+      check:inputConcatenatedText.some((item) => item === '#'),
       error:'Хештег не может состоять только из одной решетки'
     },
     {
-      check:inputArray.some((item) => item.slice(1).includes('#')),
+      check:inputConcatenatedText.some((item) => item.slice(1).includes('#')),
       error:'Хештеги разделяются пробелами'
     },
     {
-      check:inputArray.some((item) => item[0] !== '#'),
+      check:inputConcatenatedText.some((item) => item[0] !== '#'),
       error:'Хештег должен начинаться с символа \'#\''
     },
     {
-      check:inputArray.some((item, num, array) => array.includes(item, num + 1)),
+      check:inputConcatenatedText.some((item, num, array) => array.includes(item, num + 1)),
       error:'Хештеги не должны повторяться'
     },
     {
-      check:inputArray.some((item) => item.length > settings.MAX_SYMBOLS_HASHTAG),
+      check:inputConcatenatedText.some((item) => item.length > settings.MAX_SYMBOLS_HASHTAG),
       error:`Максимальная длина одного хештега ${settings.MAX_SYMBOLS_HASHTAG} символов, включая решетку`
     },
     {
-      check:inputArray.length > settings.MAX_HASHTAGS,
-      error: `Нельзя указать больше ${settings.MAX_HASHTAGS} ${getCorrectFormWord(
+      check:inputConcatenatedText.length > settings.MAX_HASHTAGS,
+      error: `Нельзя указать больше ${settings.MAX_HASHTAGS} ${selectWordByCount(
         settings.MAX_HASHTAGS,'хештега', 'хештегов', 'хештегов'
       )}`,
     },
     {
-      check:inputArray.some((item) => !/^#[a-za-яё0-9]{1,19}$/i.test(item)),
+      check:inputConcatenatedText.some((item) => !/^#[a-za-яё0-9]{1,19}$/i.test(item)),
       error:'Хештег содержит недопустимые символы'
     }
   ];

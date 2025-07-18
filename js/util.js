@@ -9,7 +9,7 @@ const getRandomItem = (items) => items [getRandomNumber(0, items.length - 1)];
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-const getCorrectFormWord = (num, nominative, genitiveSingular, genitivePlural) => {
+const selectWordByCount = (num, nominative, genitiveSingular, genitivePlural) => {
   if (num % 10 === 0 || num % 100 > 4 && num & 100 < 21){
     return genitivePlural;
   }
@@ -18,4 +18,4 @@ const getCorrectFormWord = (num, nominative, genitiveSingular, genitivePlural) =
     : genitiveSingular;
 };
 
-export {getRandomNumber, getRandomItem, isEscapeKey, getCorrectFormWord};
+export {getRandomNumber, getRandomItem, isEscapeKey, selectWordByCount};
