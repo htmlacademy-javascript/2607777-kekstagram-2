@@ -1,4 +1,4 @@
-import { photos } from './create-desc.js';
+//import { photos } from './create-desc.js';
 import { clearComments, renderComments } from './render-comments-photo.js';
 
 const bigPictureNode = document.querySelector('.big-picture');
@@ -28,7 +28,7 @@ const closeBigPicture = () =>{
   document.removeEventListener('keydown', onEscKeyDown);
 };
 
-export const openBigPicture = (pictureId) =>{
+export const openBigPicture = (pictureId, photos) =>{
   const currentPhoto = photos.find((photo) => photo.id === Number(pictureId));
 
   bigPictureImgNode.src = currentPhoto.url;

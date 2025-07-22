@@ -1,11 +1,11 @@
-import {photos} from './create-desc.js';
+//import {photos} from './create-desc.js';
 import { openBigPicture } from './render-big-photo.js';
 
 const template = document.querySelector('#picture').content.querySelector('.picture');
 const container = document.querySelector('.pictures');
 const fragment = document.createDocumentFragment();
 
-export const renderPhoto = () => {
+export const renderPhoto = (photos) => {
   photos.forEach((photo) => {
     const thumbnail = template.cloneNode(true);
     thumbnail.dataset.pictureId = photo.id;
@@ -20,7 +20,7 @@ export const renderPhoto = () => {
   container.addEventListener('click', (evt) => {
     const currentPictureNode = evt.target.closest('.picture');
     if (currentPictureNode) {
-      openBigPicture(currentPictureNode.dataset.pictureId);
+      openBigPicture(currentPictureNode.dataset.pictureId, photos);
     }
   });
 };

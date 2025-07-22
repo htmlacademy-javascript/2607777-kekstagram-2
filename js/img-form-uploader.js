@@ -1,6 +1,8 @@
 import {isEscapeKey} from './util.js';
 import {getError, isHashtagsValid, isCommentValid} from './validator.js';
 import {applyEffect} from './slider-effects.js';
+import { sendData } from './api.js';
+import { showSuccessTemplate, showErrorTemplate } from './response.js';
 
 const SCALE_STEP = 0.25;
 
@@ -16,6 +18,7 @@ const effectLevel = imgUploadForm.querySelector('.img-upload__effect-level');
 const effectList = imgUploadForm.querySelector('.effects__list');
 const inputHashtag = imgUploadForm.querySelector('.text__hashtags');
 const inputText = imgUploadForm.querySelector('.text__description');
+const imgButtonSubmit = uploadOverlay.querySelector('.img-upload__submit');
 
 let scale = 1;
 
@@ -77,7 +80,7 @@ const handleTagChange = () => {
 const handleTextChange = () => {
   isCommentValid(inputText.value);
 };
-
+/*
 const validateFormSubmit = (evt) =>{
   evt.preventDefault();
 
@@ -86,7 +89,7 @@ const validateFormSubmit = (evt) =>{
     imgUploadForm.submit();
   }
 };
-
+*/
 pristine.addValidator(inputHashtag, isHashtagsValid, getError, 2, false);
 
 pristine.addValidator(inputText, isCommentValid, getError, 2, false);
@@ -103,4 +106,37 @@ inputHashtag.addEventListener('input', handleTagChange);
 
 inputText.addEventListener('input', handleTextChange);
 
-imgUploadForm.addEventListener('submit', validateFormSubmit);
+//imgUploadForm.addEventListener('submit', validateFormSubmit);
+
+const blockSubmitButton = () => {
+  imgButtonSubmit.disabled = true;
+  imgButtonSubmit.textContent = 'Публикую...';
+};
+
+const unblockSubmitButton = () => {
+  imgButtonSubmit.disabled = false;
+  imgButtonSubmit.textContent = 'Опубликовать';
+};
+
+const handleSubmit = (onSuccess) =>{
+  imgUploadForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    blockSubmitButton();
+
+    sendData(
+      () => {
+        onSuccess();
+        unblockSubmitButton();
+        showSuccessTemplate();
+      },
+      () => {
+        document.removeEventListener('keydown', onEscapeKeydown);
+        showErrorTemplate();
+        unblockSubmitButton();
+      },
+      new FormData(evt.target),
+    );
+  });
+};
+
+imgButtonSubmit.addEventListener('click', handleSubmit);
