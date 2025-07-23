@@ -1,9 +1,11 @@
 import { isEscapeKey } from './util.js';
+//import {showAlert} from './util.js';
 
 const successTemplate = document.querySelector('#success').content.querySelector('.success');
-const errorTemplate = document.querySelector('#error').content.querySelector('.error');
+const errorTemplateSend = document.querySelector('#error').content.querySelector('.error');
+const errorTemplateGet = document.querySelector('#data-error').content.querySelector('.data-error');
 
-export const showSuccessTemplate = () => {
+export const showSuccess = () => {
   const successFragment = document.createDocumentFragment();
   const successElement = successTemplate.cloneNode(true);
   successFragment.append(successElement);
@@ -30,9 +32,9 @@ export const showSuccessTemplate = () => {
 
 };
 
-export const showErrorTemplate = () => {
+export const showErrorSend = () => {
   const errorFragment = document.createDocumentFragment();
-  const errorElement = errorTemplate.cloneNode(true);
+  const errorElement = errorTemplateSend.cloneNode(true);
 
   errorFragment.append(errorElement);
   document.body.append(errorFragment);
@@ -58,3 +60,28 @@ export const showErrorTemplate = () => {
 
 };
 
+const TIMEOUT = 5000;
+
+export const showErrorGet = () => {
+  const errorElement = errorTemplateGet.cloneNode(true);
+  const errorArea = errorElement.querySelector('.data-error__title').textContent;
+
+  const alertContainer = document.createElement('div');
+  alertContainer.style.zIndex = '100';
+  alertContainer.style.position = 'absolute';
+  alertContainer.style.left = '0';
+  alertContainer.style.top = '0';
+  alertContainer.style.right = '0';
+  alertContainer.style.padding = '10px 3px';
+  alertContainer.style.fontSize = '20px';
+  alertContainer.style.textAlign = 'center';
+  alertContainer.style.backgroundColor = 'red';
+
+  alertContainer.textContent = errorArea;
+
+  document.body.append(alertContainer);
+
+  setTimeout(() =>{
+    alertContainer.remove();
+  }, TIMEOUT);
+};

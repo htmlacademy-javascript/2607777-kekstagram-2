@@ -1,4 +1,4 @@
-const ALERT_SHOW_TIME = 1000 * 5;
+//const ALERT_SHOW_TIME = 1000 * 5;
 
 const getRandomNumber = (min, max) =>{
   const lower = Math.ceil(Math.min(Math.abs(min), Math.abs(max)));
@@ -20,7 +20,7 @@ const selectWordByCount = (num, nominative, genitiveSingular, genitivePlural) =>
     : genitiveSingular;
 };
 
-const showAlert = (message) => {
+/*const showAlert = (message) => {
   const alertContainer = document.createElement('div');
   alertContainer.style.zIndex = '100';
   alertContainer.style.position = 'absolute';
@@ -40,5 +40,5 @@ const showAlert = (message) => {
     alertContainer.remove();
   }, ALERT_SHOW_TIME);
 };
-
-export {getRandomNumber, getRandomItem, isEscapeKey, selectWordByCount, showAlert};
+*/
+export {getRandomNumber, getRandomItem, isEscapeKey, selectWordByCount,};
