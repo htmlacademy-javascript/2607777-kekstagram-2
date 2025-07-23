@@ -1,3 +1,5 @@
+//import {showErrorGet} from './response.js';
+
 const getData = (onSuccess, onError) => {
   fetch('https://31.javascript.htmlacademy.pro/kekstagram/data')
     .then((response) => {
@@ -8,7 +10,7 @@ const getData = (onSuccess, onError) => {
     })
     .then((response) => response.json())
     .then((data) => onSuccess(data))
-    .catch(() => onError('Произошла ошибка. Попробуйте повторить позже.'));
+    .catch(() => onError());
 };
 
 const sendData = (onSuccess, onError, body) => {

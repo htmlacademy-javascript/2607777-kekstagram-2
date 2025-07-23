@@ -2,7 +2,7 @@ import {isEscapeKey} from './util.js';
 import {getError, isHashtagsValid, isCommentValid} from './validator.js';
 import {applyEffect} from './slider-effects.js';
 import { sendData } from './api.js';
-import { showSuccessTemplate, showErrorTemplate } from './response.js';
+import { showSuccess, showErrorSend } from './response.js';
 
 const SCALE_STEP = 0.25;
 
@@ -118,25 +118,24 @@ const unblockSubmitButton = () => {
   imgButtonSubmit.textContent = 'Опубликовать';
 };
 
-const handleSubmit = (onSuccess) =>{
-  imgUploadForm.addEventListener('submit', (evt) => {
-    evt.preventDefault();
-    blockSubmitButton();
+const handleSubmit = (evt) =>{
+  evt.preventDefault();
+  blockSubmitButton();
 
-    sendData(
-      () => {
-        onSuccess();
-        unblockSubmitButton();
-        showSuccessTemplate();
-      },
-      () => {
-        document.removeEventListener('keydown', onEscapeKeydown);
-        showErrorTemplate();
-        unblockSubmitButton();
-      },
-      new FormData(evt.target),
-    );
-  });
+  sendData(
+    () => {
+      document.removeEventListener('keydown', onEscapeKeydown);
+      unblockSubmitButton();
+      showSuccess();
+    },
+    () => {
+      document.removeEventListener('keydown', onEscapeKeydown);
+      showErrorSend();
+      unblockSubmitButton();
+    },
+    new FormData(evt.target),
+  );
 };
 
-imgButtonSubmit.addEventListener('click', handleSubmit);
+imgUploadForm.addEventListener('submit', handleSubmit);
+
