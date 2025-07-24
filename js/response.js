@@ -1,5 +1,6 @@
 import { isEscapeKey } from './util.js';
-//import {showAlert} from './util.js';
+
+const TIMEOUT = 5000;
 
 const successTemplate = document.querySelector('#success').content.querySelector('.success');
 const errorTemplateSend = document.querySelector('#error').content.querySelector('.error');
@@ -32,7 +33,7 @@ export const showSuccess = () => {
 
 };
 
-export const showErrorSend = () => {
+export const showErrorSending = () => {
   const errorFragment = document.createDocumentFragment();
   const errorElement = errorTemplateSend.cloneNode(true);
 
@@ -60,9 +61,7 @@ export const showErrorSend = () => {
 
 };
 
-const TIMEOUT = 5000;
-
-export const showErrorGet = () => {
+export const showErrorGetting = () => {
   const errorElement = errorTemplateGet.cloneNode(true);
   const errorArea = errorElement.querySelector('.data-error__title').textContent;
 

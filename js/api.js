@@ -1,14 +1,11 @@
-//import {showErrorGet} from './response.js';
-
 const getData = (onSuccess, onError) => {
   fetch('https://31.javascript.htmlacademy.pro/kekstagram/data')
     .then((response) => {
       if (response.ok) {
-        return response;
+        return response.json();
       }
       throw new Error(`${response.status} - ${response.statusText}`);
     })
-    .then((response) => response.json())
     .then((data) => onSuccess(data))
     .catch(() => onError());
 };
@@ -23,9 +20,9 @@ const sendData = (onSuccess, onError, body) => {
     .then((response) => {
       if (response.ok) {
         onSuccess();
-      } else {
-        onError();
+        return;
       }
+      onError();
     })
     .catch(() => {
       onError();

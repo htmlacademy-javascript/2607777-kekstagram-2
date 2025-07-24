@@ -2,7 +2,7 @@ import {isEscapeKey} from './util.js';
 import {getError, isHashtagsValid, isCommentValid} from './validator.js';
 import {applyEffect} from './slider-effects.js';
 import { sendData } from './api.js';
-import { showSuccess, showErrorSend } from './response.js';
+import { showSuccess, showErrorSending } from './response.js';
 
 const SCALE_STEP = 0.25;
 
@@ -73,23 +73,13 @@ const scaleUpImage = () => {
   }
 };
 
-const handleTagChange = () => {
-  isHashtagsValid(inputHashtag.value);
-};
+imgUploadForm.addEventListener('input', () => {
+  const isValid = pristine.validate();
+  imgButtonSubmit.disabled = !isValid;
+});
 
-const handleTextChange = () => {
-  isCommentValid(inputText.value);
-};
-/*
-const validateFormSubmit = (evt) =>{
-  evt.preventDefault();
+imgButtonSubmit.disabled = !pristine.validate();
 
-  if(pristine.validate()) {
-    handleTagChange.value = handleTagChange.value.trim().replaceAll(/\s+/g,'');
-    imgUploadForm.submit();
-  }
-};
-*/
 pristine.addValidator(inputHashtag, isHashtagsValid, getError, 2, false);
 
 pristine.addValidator(inputText, isCommentValid, getError, 2, false);
@@ -101,12 +91,6 @@ smallerButton.addEventListener('click', scaleDownImage);
 biggerButton.addEventListener('click', scaleUpImage);
 
 effectList.addEventListener('change', applyEffect);
-
-inputHashtag.addEventListener('input', handleTagChange);
-
-inputText.addEventListener('input', handleTextChange);
-
-//imgUploadForm.addEventListener('submit', validateFormSubmit);
 
 const blockSubmitButton = () => {
   imgButtonSubmit.disabled = true;
@@ -130,7 +114,7 @@ const handleSubmit = (evt) =>{
     },
     () => {
       document.removeEventListener('keydown', onEscapeKeydown);
-      showErrorSend();
+      showErrorSending();
       unblockSubmitButton();
     },
     new FormData(evt.target),
