@@ -18,4 +18,4 @@ const selectWordByCount = (num, nominative, genitiveSingular, genitivePlural) =>
     : genitiveSingular;
 };
 
-export {getRandomNumber, getRandomItem, isEscapeKey, selectWordByCount};
+export {getRandomNumber, getRandomItem, isEscapeKey, selectWordByCount,};

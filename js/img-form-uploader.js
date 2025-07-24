@@ -1,6 +1,8 @@
 import {isEscapeKey} from './util.js';
 import {getError, isHashtagsValid, isCommentValid} from './validator.js';
 import {applyEffect} from './slider-effects.js';
+import { sendData } from './api.js';
+import { showSuccess, showErrorSending } from './response.js';
 
 const SCALE_STEP = 0.25;
 
@@ -16,6 +18,7 @@ const effectLevel = imgUploadForm.querySelector('.img-upload__effect-level');
 const effectList = imgUploadForm.querySelector('.effects__list');
 const inputHashtag = imgUploadForm.querySelector('.text__hashtags');
 const inputText = imgUploadForm.querySelector('.text__description');
+const imgButtonSubmit = uploadOverlay.querySelector('.img-upload__submit');
 
 let scale = 1;
 
@@ -70,22 +73,12 @@ const scaleUpImage = () => {
   }
 };
 
-const handleTagChange = () => {
-  isHashtagsValid(inputHashtag.value);
-};
+imgUploadForm.addEventListener('input', () => {
+  const isValid = pristine.validate();
+  imgButtonSubmit.disabled = !isValid;
+});
 
-const handleTextChange = () => {
-  isCommentValid(inputText.value);
-};
-
-const validateFormSubmit = (evt) =>{
-  evt.preventDefault();
-
-  if(pristine.validate()) {
-    handleTagChange.value = handleTagChange.value.trim().replaceAll(/\s+/g,'');
-    imgUploadForm.submit();
-  }
-};
+imgButtonSubmit.disabled = !pristine.validate();
 
 pristine.addValidator(inputHashtag, isHashtagsValid, getError, 2, false);
 
@@ -99,8 +92,34 @@ biggerButton.addEventListener('click', scaleUpImage);
 
 effectList.addEventListener('change', applyEffect);
 
-inputHashtag.addEventListener('input', handleTagChange);
+const blockSubmitButton = () => {
+  imgButtonSubmit.disabled = true;
+  imgButtonSubmit.textContent = 'Публикую...';
+};
 
-inputText.addEventListener('input', handleTextChange);
+const unblockSubmitButton = () => {
+  imgButtonSubmit.disabled = false;
+  imgButtonSubmit.textContent = 'Опубликовать';
+};
 
-imgUploadForm.addEventListener('submit', validateFormSubmit);
+const handleSubmit = (evt) =>{
+  evt.preventDefault();
+  blockSubmitButton();
+
+  sendData(
+    () => {
+      document.removeEventListener('keydown', onEscapeKeydown);
+      unblockSubmitButton();
+      showSuccess();
+    },
+    () => {
+      document.removeEventListener('keydown', onEscapeKeydown);
+      showErrorSending();
+      unblockSubmitButton();
+    },
+    new FormData(evt.target),
+  );
+};
+
+imgUploadForm.addEventListener('submit', handleSubmit);
+
