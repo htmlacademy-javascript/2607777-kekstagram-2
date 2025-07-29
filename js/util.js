@@ -18,4 +18,14 @@ const selectWordByCount = (num, nominative, genitiveSingular, genitivePlural) =>
     : genitiveSingular;
 };
 
-export {getRandomNumber, getRandomItem, isEscapeKey, selectWordByCount,};
+const debounce = (callback, timeoutDelay = 500) => {
+  let timeoutId;
+  return (rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => {
+      callback.call(this,rest);
+    }, timeoutDelay);
+  };
+};
+
+export {getRandomNumber, getRandomItem, isEscapeKey, selectWordByCount, debounce};
