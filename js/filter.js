@@ -10,7 +10,7 @@ const FILTER = {
 
 let currentFilter = FILTER.default;
 
-const filterElement = document.querySelector('.img-filters');
+const filterPanel = document.querySelector('.img-filters');
 const ACTIVE_BUTTON_CLASS = 'img-filters__button--active';
 
 const debounceRender = debounce(renderPhoto);
@@ -46,6 +46,6 @@ const getHandleFilter = (photos) => (evt) => {
 };
 
 export const initFilter = (photos) => {
-  filterElement.classList.remove('img-filters--inactive');
-  filterElement.addEventListener('click', getHandleFilter(photos));
+  filterPanel.classList.remove('img-filters--inactive');
+  filterPanel.addEventListener('click', getHandleFilter(photos));
 };

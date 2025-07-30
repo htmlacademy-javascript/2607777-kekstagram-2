@@ -29,7 +29,6 @@ const closeBigPicture = () =>{
 };
 
 export const openBigPicture = (photo) =>{
-  //const currentPhoto = photos.find((photo) => photo.id === Number(pictureId));
   const currentPhoto = photo;
   bigPictureImgNode.src = currentPhoto.url;
   likesCountNode.textContent = currentPhoto.likes;
