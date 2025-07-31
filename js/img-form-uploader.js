@@ -105,21 +105,18 @@ const unblockSubmitButton = () => {
 const handleSubmit = (evt) =>{
   evt.preventDefault();
   blockSubmitButton();
-
-  sendData(
-    () => {
-      document.removeEventListener('keydown', onEscapeKeydown);
+  sendData(new FormData(evt.target))
+    .then((error) => {
       unblockSubmitButton();
+      document.removeEventListener('keydown', onEscapeKeydown);
+
+      if (error) {
+        showErrorSending();
+        return;
+      }
+
       showSuccess();
-    },
-    () => {
-      document.removeEventListener('keydown', onEscapeKeydown);
-      showErrorSending();
-      unblockSubmitButton();
-    },
-    new FormData(evt.target),
-  );
+      uploadOverlay.classList.add('hidden');
+    });
 };
-
 imgUploadForm.addEventListener('submit', handleSubmit);
-

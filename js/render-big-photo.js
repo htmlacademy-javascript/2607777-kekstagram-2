@@ -28,9 +28,8 @@ const closeBigPicture = () =>{
   document.removeEventListener('keydown', onEscKeyDown);
 };
 
-export const openBigPicture = (pictureId, photos) =>{
-  const currentPhoto = photos.find((photo) => photo.id === Number(pictureId));
-
+export const openBigPicture = (photo) =>{
+  const currentPhoto = photo;
   bigPictureImgNode.src = currentPhoto.url;
   likesCountNode.textContent = currentPhoto.likes;
   commentsCaptionNode.textContent = currentPhoto.description;
