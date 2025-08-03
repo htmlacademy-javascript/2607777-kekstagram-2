@@ -5,6 +5,7 @@ import { sendData } from './api.js';
 import { showSuccess, showErrorSending } from './response.js';
 
 const SCALE_STEP = 0.25;
+const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 
 const imgUploadForm = document.querySelector('.img-upload__form');
 const uploadOverlay = imgUploadForm.querySelector('.img-upload__overlay');
@@ -19,6 +20,8 @@ const effectList = imgUploadForm.querySelector('.effects__list');
 const inputHashtag = imgUploadForm.querySelector('.text__hashtags');
 const inputText = imgUploadForm.querySelector('.text__description');
 const imgButtonSubmit = uploadOverlay.querySelector('.img-upload__submit');
+const imgUploadButton = imgUploadForm.querySelector('.img-upload__input');
+const imgEffects = document.querySelectorAll('.effects__preview');
 
 let scale = 1;
 
@@ -78,13 +81,30 @@ imgUploadForm.addEventListener('input', () => {
   imgButtonSubmit.disabled = !isValid;
 });
 
+const fileUploadChange = () =>{
+  const file = imgUploadButton.files[0];
+  const fileName = file.name.toLowerCase();
+  const fileExt = fileName.split('.').pop();
+  const matches = FILE_TYPES.includes(fileExt);
+  if(matches) {
+    const url = URL.createObjectURL(file);
+    img.src = url;
+    imgEffects.forEach((item) => {
+      item.style.backgroundImage = `url(${url})`;
+    });
+  }else {
+    return;
+  }
+  onPhotoSelect();
+};
+
 imgButtonSubmit.disabled = !pristine.validate();
 
 pristine.addValidator(inputHashtag, isHashtagsValid, getError, 2, false);
 
 pristine.addValidator(inputText, isCommentValid, getError, 2, false);
 
-uploadFile.addEventListener('change', onPhotoSelect);
+uploadFile.addEventListener('change', fileUploadChange);
 
 smallerButton.addEventListener('click', scaleDownImage);
 
