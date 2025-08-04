@@ -81,7 +81,7 @@ imgUploadForm.addEventListener('input', () => {
   imgButtonSubmit.disabled = !isValid;
 });
 
-const fileUploadChange = () =>{
+const handleFileUpload = () =>{
   const file = imgUploadButton.files[0];
   const fileName = file.name.toLowerCase();
   const fileExt = fileName.split('.').pop();
@@ -104,7 +104,7 @@ pristine.addValidator(inputHashtag, isHashtagsValid, getError, 2, false);
 
 pristine.addValidator(inputText, isCommentValid, getError, 2, false);
 
-uploadFile.addEventListener('change', fileUploadChange);
+uploadFile.addEventListener('change', handleFileUpload);
 
 smallerButton.addEventListener('click', scaleDownImage);
 
@@ -136,6 +136,7 @@ const handleSubmit = (evt) =>{
       }
 
       showSuccess();
+      document.body.classList.remove('modal-open');
       uploadOverlay.classList.add('hidden');
     });
 };
