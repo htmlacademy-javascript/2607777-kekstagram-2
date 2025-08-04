@@ -26,7 +26,6 @@ const applyFilter = (photos) => {
   if(currentFilter === FILTER.discussed) {
     filteredPictures = photos.toSorted((a,b) => b.comments.length - a.comments.length);
   }
-  //renderPhoto(filteredPictures);
   debounceRender(filteredPictures);
 };
 
