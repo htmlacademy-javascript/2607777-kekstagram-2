@@ -17,8 +17,8 @@ const img = imgUploadForm.querySelector('.img-upload__preview img');
 const scaleControl = imgUploadForm.querySelector('.scale__control--value');
 const effectLevel = imgUploadForm.querySelector('.img-upload__effect-level');
 const effectList = imgUploadForm.querySelector('.effects__list');
-const inputHashtag = imgUploadForm.querySelector('.text__hashtags');
-const inputText = imgUploadForm.querySelector('.text__description');
+const hashtagInput = imgUploadForm.querySelector('.text__hashtags');
+const descriptionInput = imgUploadForm.querySelector('.text__description');
 const imgButtonSubmit = uploadOverlay.querySelector('.img-upload__submit');
 const imgUploadButton = imgUploadForm.querySelector('.img-upload__input');
 const imgEffects = document.querySelectorAll('.effects__preview');
@@ -77,7 +77,7 @@ const scaleUpImage = () => {
 };
 
 imgUploadForm.addEventListener('input', () => {
-  const isValid = pristine.validate();
+  const isValid = pristine.validate(true);
   imgButtonSubmit.disabled = !isValid;
 });
 
@@ -100,16 +100,11 @@ const handleFileUpload = () =>{
 
 imgButtonSubmit.disabled = !pristine.validate();
 
-pristine.addValidator(inputHashtag, isHashtagsValid, getError, 2, false);
-
-pristine.addValidator(inputText, isCommentValid, getError, 2, false);
-
+pristine.addValidator(hashtagInput, isHashtagsValid, getError, 2, false);
+pristine.addValidator(descriptionInput, isCommentValid, getError, 2, false);
 uploadFile.addEventListener('change', handleFileUpload);
-
 smallerButton.addEventListener('click', scaleDownImage);
-
 biggerButton.addEventListener('click', scaleUpImage);
-
 effectList.addEventListener('change', applyEffect);
 
 const blockSubmitButton = () => {
@@ -138,6 +133,9 @@ const handleSubmit = (evt) =>{
       showSuccess();
       document.body.classList.remove('modal-open');
       uploadOverlay.classList.add('hidden');
+      //const prestineHashtagDiv = imgUploadForm.querySelector('.img-upload__field-wrapper');
+      //const prestineDiv = prestineHashtagDiv.querySelector('div');
+      //prestineDiv.remove();
     });
 };
 imgUploadForm.addEventListener('submit', handleSubmit);
