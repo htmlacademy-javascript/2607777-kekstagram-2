@@ -3,6 +3,7 @@ const slider = imgUploadWrapper.querySelector('.effect-level__slider');
 const effectLevel = imgUploadWrapper.querySelector('.img-upload__effect-level');
 const effectLevelValue = imgUploadWrapper.querySelector('.effect-level__value');
 const img = imgUploadWrapper.querySelector('.img-upload__preview');
+const imgPosition = img.firstElementChild;
 
 noUiSlider.create(slider, {
   start:0,
@@ -36,7 +37,7 @@ export const applyEffect = (evt) =>{
 
   switch (effect) {
     case 'none':
-      img.style.filter = 'none';
+      imgPosition.style.filter = 'none';
       break;
     case 'chrome':
       slider.noUiSlider.updateOptions({
@@ -44,11 +45,11 @@ export const applyEffect = (evt) =>{
           min:0,
           max:1
         },
-        start : 0,
+        start : 1,
         step: 0.1
       });
       slider.noUiSlider.on('update', () =>{
-        img.style.filter = `grayscale(${effectLevelValue.value})`;
+        imgPosition.style.filter = `grayscale(${effectLevelValue.value})`;
       });
       break;
     case 'sepia':
@@ -57,11 +58,11 @@ export const applyEffect = (evt) =>{
           min:0,
           max:1
         },
-        start : 0,
+        start : 1,
         step: 0.1
       });
       slider.noUiSlider.on('update', () =>{
-        img.style.filter = `sepia(${effectLevelValue.value})`;
+        imgPosition.style.filter = `sepia(${effectLevelValue.value})`;
       });
       break;
     case 'marvin':
@@ -70,11 +71,11 @@ export const applyEffect = (evt) =>{
           min:0,
           max:100
         },
-        start : 0,
+        start : 100,
         step: 1
       });
       slider.noUiSlider.on('update', () =>{
-        img.style.filter = `invert(${effectLevelValue.value}%)`;
+        imgPosition.style.filter = `invert(${effectLevelValue.value}%)`;
       });
       break;
     case 'phobos':
@@ -83,11 +84,11 @@ export const applyEffect = (evt) =>{
           min:0,
           max:3
         },
-        start : 0,
+        start : 3,
         step: 0.1
       });
       slider.noUiSlider.on('update', () =>{
-        img.style.filter = `blur(${effectLevelValue.value}px)`;
+        imgPosition.style.filter = `blur(${effectLevelValue.value}px)`;
       });
       break;
     case 'heat':
@@ -96,11 +97,11 @@ export const applyEffect = (evt) =>{
           min:1,
           max:3
         },
-        start : 1,
+        start : 3,
         step: 0.1
       });
       slider.noUiSlider.on('update', () =>{
-        img.style.filter = `brightness(${effectLevelValue.value})`;
+        imgPosition.style.filter = `brightness(${effectLevelValue.value})`;
       });
   }
 };
