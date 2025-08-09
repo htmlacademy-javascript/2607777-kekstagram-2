@@ -1,8 +1,8 @@
-const imgUploadWrapper = document.querySelector('.img-upload__wrapper');
-const slider = imgUploadWrapper.querySelector('.effect-level__slider');
-const effectLevel = imgUploadWrapper.querySelector('.img-upload__effect-level');
-const effectLevelValue = imgUploadWrapper.querySelector('.effect-level__value');
-const img = imgUploadWrapper.querySelector('.img-upload__preview');
+const imgUploadWrapperOverlay = document.querySelector('.img-upload__wrapper');
+const slider = imgUploadWrapperOverlay.querySelector('.effect-level__slider');
+const effectLevelOverlay = imgUploadWrapperOverlay.querySelector('.img-upload__effect-level');
+const effectLevelValue = imgUploadWrapperOverlay.querySelector('.effect-level__value');
+const img = imgUploadWrapperOverlay.querySelector('.img-upload__preview');
 const imgPosition = img.firstElementChild;
 
 noUiSlider.create(slider, {
@@ -24,15 +24,15 @@ slider.noUiSlider.on('update', () =>{
   effectLevelValue.value = slider.noUiSlider.get();
 });
 
-effectLevel.classList.add('hidden');
+effectLevelOverlay.classList.add('hidden');
 
 export const applyEffect = (evt) =>{
   const effect = evt.target.value;
 
   if (effect === 'none') {
-    effectLevel.classList.add('hidden');
+    effectLevelOverlay.classList.add('hidden');
   }else {
-    effectLevel.classList.remove('hidden');
+    effectLevelOverlay.classList.remove('hidden');
   }
 
   switch (effect) {

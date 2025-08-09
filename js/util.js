@@ -1,12 +1,3 @@
-const getRandomNumber = (min, max) =>{
-  const lower = Math.ceil(Math.min(Math.abs(min), Math.abs(max)));
-  const upper = Math.floor(Math.max(Math.abs(min), Math.abs(max)));
-  const result = Math.random() * (upper - lower + 1) + lower;
-  return Math.floor(result);
-};
-
-const getRandomItem = (items) => items [getRandomNumber(0, items.length - 1)];
-
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
 const selectWordByCount = (num, nominative, genitiveSingular, genitivePlural) => {
@@ -28,4 +19,4 @@ const debounce = (callback, timeoutDelay = 500) => {
   };
 };
 
-export {getRandomNumber, getRandomItem, isEscapeKey, selectWordByCount, debounce};
+export {isEscapeKey, selectWordByCount, debounce};

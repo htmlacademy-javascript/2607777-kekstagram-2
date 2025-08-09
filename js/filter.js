@@ -1,5 +1,4 @@
 import {debounce} from './util.js';
-
 import { renderPhoto } from './render-photo.js';
 
 const FILTER = {

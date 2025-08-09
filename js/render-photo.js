@@ -1,7 +1,7 @@
 import { openBigPicture } from './render-big-photo.js';
 
-const template = document.querySelector('#picture').content.querySelector('.picture');
-const container = document.querySelector('.pictures');
+const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
+const picturesContainer = document.querySelector('.pictures');
 const fragment = document.createDocumentFragment();
 
 const clearPhotos = () => {
@@ -28,7 +28,7 @@ export const renderPhoto = (photos) => {
   currentPhotos = photos;
 
   currentPhotos.forEach((photo) => {
-    const thumbnail = template.cloneNode(true);
+    const thumbnail = pictureTemplate.cloneNode(true);
     thumbnail.dataset.pictureId = photo.id;
     thumbnail.querySelector('.picture__img').src = photo.url;
     thumbnail.querySelector('.picture__img').alt = photo.description;
@@ -37,6 +37,6 @@ export const renderPhoto = (photos) => {
     fragment.appendChild(thumbnail);
   });
 
-  container.appendChild(fragment);
-  container.addEventListener('click',onPictureClick);
+  picturesContainer.appendChild(fragment);
+  picturesContainer.addEventListener('click',onPictureClick);
 };

@@ -1,4 +1,6 @@
-const getData = () => fetch('https://31.javascript.htmlacademy.pro/kekstagram/data')
+const BASE_URL = 'https://31.javascript.htmlacademy.pro/kekstagram/';
+
+const getData = () => fetch(`${BASE_URL}data`)
   .then((response) => {
     if (response.ok) {
       return response.json();
@@ -9,12 +11,12 @@ const getData = () => fetch('https://31.javascript.htmlacademy.pro/kekstagram/da
     hasError: false,
     data,
   }))
-  .catch((error) => ({
+  .catch((err) => ({
     hasError: true,
-    error,
+    err,
   }));
 
-const sendData = (body) => fetch('https://31.javascript.htmlacademy.pro/kekstagram',
+const sendData = (body) => fetch(BASE_URL,
   {
     method: 'POST',
     body
@@ -26,7 +28,7 @@ const sendData = (body) => fetch('https://31.javascript.htmlacademy.pro/kekstagr
     }
     throw new Error(`${response.status} - ${response.statusText}`);
   })
-  .catch((error) => error);
+  .catch((err) => err);
 
 
 export { getData, sendData };
