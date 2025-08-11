@@ -8,25 +8,25 @@ import { showSuccess, showErrorSending } from './messages.js';
 const SCALE_STEP = 0.25;
 const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 
-const imgUploadForm = document.querySelector('.img-upload__form');
-const imgUploadOverlay = imgUploadForm.querySelector('.img-upload__overlay');
-const img = imgUploadForm.querySelector('.img-upload__preview img');
+const form = document.querySelector('.img-upload__form');
+const overlay = form.querySelector('.img-upload__overlay');
+const img = form.querySelector('.img-upload__preview img');
 const imgEffectsPreview = document.querySelectorAll('.effects__preview');
-const effectLevel = imgUploadForm.querySelector('.img-upload__effect-level');
-const effectList = imgUploadForm.querySelector('.effects__list');
-const imgUploadCancelButton = imgUploadForm.querySelector('.img-upload__cancel');
-const smallerButton = imgUploadForm.querySelector('.scale__control--smaller');
-const biggerButton = imgUploadForm.querySelector('.scale__control--bigger');
-const imgSubmitButton = imgUploadOverlay.querySelector('.img-upload__submit');
-const imgUploadButton = imgUploadForm.querySelector('.img-upload__input');
-const scaleControl = imgUploadForm.querySelector('.scale__control--value');
-const hashtagInput = imgUploadForm.querySelector('.text__hashtags');
-const imgUploadFileInput = imgUploadForm.querySelector('#upload-file');
-const descriptionInput = imgUploadForm.querySelector('.text__description');
+const effectLevel = form.querySelector('.img-upload__effect-level');
+const effects = form.querySelector('.effects__list');
+const cancelButton = form.querySelector('.img-upload__cancel');
+const smallerButton = form.querySelector('.scale__control--smaller');
+const biggerButton = form.querySelector('.scale__control--bigger');
+const imgSubmitButton = overlay.querySelector('.img-upload__submit');
+const imgUploadButton = form.querySelector('.img-upload__input');
+const scaleControl = form.querySelector('.scale__control--value');
+const hashtagInput = form.querySelector('.text__hashtags');
+const imgUploadFileInput = form.querySelector('#upload-file');
+const descriptionInput = form.querySelector('.text__description');
 
 let currentScale = 1;
 
-const pristine = new Pristine(imgUploadForm, {
+const pristine = new Pristine(form, {
   classTo: 'img-upload__form',
   errorTextParent: 'img-upload__field-wrapper',
   errorTextClass : 'img-upload__field-wrapper--error',
@@ -51,36 +51,36 @@ const scaleUpImage = () => {
   }
 };
 
-const closeUploadImg = () =>{
+const closeForm = () =>{
   document.body.classList.remove('modal-open');
-  imgUploadOverlay.classList.add('hidden');
+  overlay.classList.add('hidden');
   currentScale = 1;
   setImageScale(currentScale);
   effectLevel.classList.add('hidden');
   img.style.filter = 'none';
-  imgUploadForm.reset();
+  form.reset();
   // eslint-disable-next-line no-use-before-define
-  document.removeEventListener('keydown', escapeKeydown);
+  document.removeEventListener('keydown', handleKeyDown);
 };
 
-const escapeKeydown = (evt) =>{
-  if(isEscapeKey(evt)
-  && !evt.target.classList.contains('text__hashtags')
-  && !evt.target.classList.contains('text__description')
+const handleKeyDown = (evt) => {
+  if (isEscapeKey(evt) &&
+        !evt.target.classList.contains('text__hashtags') &&
+        !evt.target.classList.contains('text__description')
   ) {
     evt.preventDefault();
-    closeUploadImg();
+    closeForm();
   }
 };
 
-const selectPhoto = () =>{
+const openForm = () => {
   document.body.classList.add('modal-open');
-  imgUploadOverlay.classList.remove('hidden');
-  imgUploadCancelButton.addEventListener('click', closeUploadImg);
-  document.addEventListener('keydown', escapeKeydown);
+  overlay.classList.remove('hidden');
+  cancelButton.addEventListener('click', closeForm);
+  document.addEventListener('keydown', handleKeyDown);
 };
 
-imgUploadForm.addEventListener('input', () => {
+form.addEventListener('input', () => {
   const isValid = pristine.validate(true);
   imgSubmitButton.disabled = !isValid;
 });
@@ -96,10 +96,8 @@ const handleFileUpload = () =>{
     imgEffectsPreview.forEach((item) => {
       item.style.backgroundImage = `url(${url})`;
     });
-  }else {
-    return;
   }
-  selectPhoto();
+  openForm();
 };
 
 imgSubmitButton.disabled = !pristine.validate();
@@ -109,7 +107,7 @@ pristine.addValidator(descriptionInput, isDescriptionValid, getError, 2, false);
 imgUploadFileInput.addEventListener('change', handleFileUpload);
 smallerButton.addEventListener('click', scaleDownImage);
 biggerButton.addEventListener('click', scaleUpImage);
-effectList.addEventListener('change', applyEffect);
+effects.addEventListener('change', applyEffect);
 
 const blockSubmitButton = () => {
   imgSubmitButton.disabled = true;
@@ -125,17 +123,17 @@ const handleSubmit = (evt) =>{
   evt.preventDefault();
   blockSubmitButton();
   sendData(new FormData(evt.target))
-    .then((err) => {
+    .then((error) => {
       unblockSubmitButton();
-      document.removeEventListener('keydown', escapeKeydown);
+      document.removeEventListener('keydown', handleKeyDown);
 
-      if (err) {
+      if (error) {
         showErrorSending();
         return;
       }
       imgUploadFileInput.value = '';
-      closeUploadImg();
+      closeForm();
       showSuccess();
     });
 };
-imgUploadForm.addEventListener('submit', handleSubmit);
+form.addEventListener('submit', handleSubmit);

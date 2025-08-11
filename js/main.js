@@ -1,4 +1,4 @@
-import {renderPhoto} from './render-photo.js';
+import {renderPhotos} from './render-photo.js';
 import './img-form-uploader.js';
 import { getData } from './api.js';
 import { showErrorGetting } from './messages.js';
@@ -11,7 +11,7 @@ getData()
       return;
     }
     const { data = [] } = response;
-    renderPhoto(data);
+    renderPhotos(data);
     initFilter(data);
   });
 

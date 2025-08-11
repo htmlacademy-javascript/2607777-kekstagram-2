@@ -28,7 +28,7 @@ const sendData = (body) => fetch(BASE_URL,
     }
     throw new Error(`${response.status} - ${response.statusText}`);
   })
-  .catch((err) => err);
+  .catch((error) => error);
 
 
 export { getData, sendData };

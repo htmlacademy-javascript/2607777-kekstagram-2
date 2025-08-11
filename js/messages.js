@@ -3,8 +3,8 @@ import { isEscapeKey } from './util.js';
 const TIMEOUT = 5000;
 
 const successTemplate = document.querySelector('#success').content.querySelector('.success');
-const errorTemplateSend = document.querySelector('#error').content.querySelector('.error');
-const errorTemplateGet = document.querySelector('#data-error').content.querySelector('.data-error');
+const sendErrorTemplate = document.querySelector('#error').content.querySelector('.error');
+const getErrorTemplate = document.querySelector('#data-error').content.querySelector('.data-error');
 
 export const showSuccess = () => {
   const successFragment = document.createDocumentFragment();
@@ -14,7 +14,6 @@ export const showSuccess = () => {
   const closeButton = successElement.querySelector('.success__button');
   const onSuccessEscKeydown = (evt) => {
     if (isEscapeKey(evt)) {
-      evt.preventDefault();
       successElement.remove();
     }
   };
@@ -35,26 +34,25 @@ export const showSuccess = () => {
 
 export const showErrorSending = () => {
   const errorFragment = document.createDocumentFragment();
-  const errorElement = errorTemplateSend.cloneNode(true);
+  const errorElement = sendErrorTemplate.cloneNode(true);
 
   errorFragment.append(errorElement);
   document.body.append(errorFragment);
   const closeButton = errorElement.querySelector('.error__button');
-  const onErrorEscKeydown = (evt) => {
+  const handleKeyDown = (evt) => {
     if (isEscapeKey(evt)) {
-      evt.preventDefault();
       errorElement.remove();
     }
   };
   closeButton.addEventListener('click', () => {
     errorElement.remove();
-    document.removeEventListener('keydown', onErrorEscKeydown);
+    document.removeEventListener('keydown', handleKeyDown);
   });
 
-  document.addEventListener('keydown', onErrorEscKeydown, { once: true });
+  document.addEventListener('keydown', handleKeyDown, { once: true });
 
   errorElement.addEventListener('click', (evt) => {
-    if(evt.target.className === 'error' && evt.currentTarget.className === 'error') {
+    if (evt.target.className === 'error' && evt.currentTarget.className === 'error') {
       errorElement.remove();
     }
   });
@@ -62,7 +60,7 @@ export const showErrorSending = () => {
 };
 
 export const showErrorGetting = () => {
-  const errorNotify = errorTemplateGet.cloneNode(true);
+  const errorNotify = getErrorTemplate.cloneNode(true);
   const errorTitle = errorNotify.querySelector('.data-error__title');
 
   errorTitle.style.zIndex = '100';
