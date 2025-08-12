@@ -61,6 +61,7 @@ const closeForm = () =>{
   form.reset();
   // eslint-disable-next-line no-use-before-define
   document.removeEventListener('keydown', handleKeyDown);
+  cancelButton.removeEventListener('click', closeForm);
 };
 
 const handleKeyDown = (evt) => {
@@ -126,7 +127,6 @@ const handleSubmit = (evt) =>{
     .then((error) => {
       unblockSubmitButton();
       document.removeEventListener('keydown', handleKeyDown);
-
       if (error) {
         showErrorSending();
         return;

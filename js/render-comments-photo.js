@@ -7,6 +7,7 @@ const bigPictureSocialComments = bigPictureForm.querySelector('.social__comments
 const socialCommentTemplate = bigPictureSocialComments.querySelector('.social__comment');
 const bigPictureCommentsCount = bigPictureForm.querySelector('.social__comment-count');
 const bigPictureCommentsLoaderButton = bigPictureForm.querySelector('.social__comments-loader');
+
 bigPictureSocialComments.innerHTML = '';
 
 const renderNextComments = () =>{

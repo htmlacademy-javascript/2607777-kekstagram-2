@@ -9,18 +9,15 @@ const clearPhotos = () => {
   document.querySelectorAll('a.picture').forEach((item) => item.remove());
 };
 
-const photoClick = (evt) => {
+const handlePhotoClick = (evt) => {
   const targetPhoto = evt.target.closest('.picture');
-  if (!targetPhoto) {
-    return;
-  }
-
   const id = Number(targetPhoto.dataset.pictureId);
   const photo = currentPhotos.find((p) => p.id === id);
   if (photo) {
     openBigPhoto(photo);
   }
 };
+
 
 export const renderPhotos = (photos) => {
   clearPhotos();
@@ -33,9 +30,8 @@ export const renderPhotos = (photos) => {
     thumbnail.querySelector('.picture__img').alt = photo.description;
     thumbnail.querySelector('.picture__comments').textContent = photo.comments.length;
     thumbnail.querySelector('.picture__likes').textContent = photo.likes;
+    thumbnail.addEventListener('click', handlePhotoClick);
     fragment.appendChild(thumbnail);
   });
-
   photosContainer.appendChild(fragment);
-  photosContainer.addEventListener('click',photoClick);
 };

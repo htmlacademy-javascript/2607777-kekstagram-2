@@ -21,33 +21,33 @@ export const isHashtagsValid = (value) => {
 
   const rules = [
     {
-      isInvalid:hashTags.some((item) => item === '#'),
+      isInvalid:() => hashTags.some((item) => item === '#'),
       error:'Хештег не может состоять только из одной решетки'
     },
     {
-      isInvalid:hashTags.some((item) => item.slice(1).includes('#')),
+      isInvalid:() => hashTags.some((item) => item.slice(1).includes('#')),
       error:'Хештеги разделяются пробелами'
     },
     {
-      isInvalid:hashTags.some((item) => item[0] !== '#'),
+      isInvalid:() => hashTags.some((item) => item[0] !== '#'),
       error:'Хештег должен начинаться с символа \'#\''
     },
     {
-      isInvalid:hashTags.some((item, num, array) => array.includes(item, num + 1)),
+      isInvalid:() => hashTags.some((item, num, array) => array.includes(item, num + 1)),
       error:'Хештеги не должны повторяться'
     },
     {
-      isInvalid:hashTags.some((item) => item.length > MAX_SYMBOLS_HASHTAG),
+      isInvalid:() => hashTags.some((item) => item.length > MAX_SYMBOLS_HASHTAG),
       error:`Максимальная длина одного хештега ${MAX_SYMBOLS_HASHTAG} символов, включая решетку`
     },
     {
-      isInvalid:hashTags.length > MAX_HASHTAGS,
+      isInvalid:() => hashTags.length > MAX_HASHTAGS,
       error: `Нельзя указать больше ${MAX_HASHTAGS} ${selectPluralForm(
         MAX_HASHTAGS,'хештега', 'хештегов', 'хештегов'
       )}`,
     },
     {
-      isInvalid:hashTags.some((item) => !/^#[a-za-яё0-9]{1,19}$/i.test(item)),
+      isInvalid:() => hashTags.some((item) => !/^#[a-za-яё0-9]{1,19}$/i.test(item)),
       error:'Хештег содержит недопустимые символы'
     }
   ];

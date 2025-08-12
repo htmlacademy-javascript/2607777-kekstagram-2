@@ -1,31 +1,29 @@
-import {debounce} from './util.js';
+import { debounce } from './util.js';
 import { renderPhotos } from './render-photo.js';
 
 const ACTIVE_BUTTON_CLASS = 'img-filters__button--active';
+const FILTER_DEFAULT = 'filter-default';
+const FILTER_RANDOM = 'filter-random';
+const FILTER_DISCUSSED = 'filter-discussed';
 
-const Filter = {
-  default:'filter-default',
-  random: 'filter-random',
-  discussed: 'filter-discussed'
+const filterDefault = (photos) => photos;
+const filterDiscused = (photos) =>
+  photos.toSorted((a, b) => b.comments.length - a.comments.length);
+const filterRandom = (photos) =>
+  photos.toSorted(() => 0.5 - Math.random()).slice(0, 10);
+
+const Filters = {
+  [FILTER_DEFAULT]: filterDefault,
+  [FILTER_RANDOM]: filterRandom,
+  [FILTER_DISCUSSED]: filterDiscused,
 };
-
-let currentFilter = Filter.default;
 
 const filterPanel = document.querySelector('.img-filters');
 
 const debounceRender = debounce(renderPhotos);
 
-const applyFilter = (photos) => {
-  let filteredPictures = [];
-  if(currentFilter === Filter.default) {
-    filteredPictures = photos;
-  }
-  if(currentFilter === Filter.random) {
-    filteredPictures = photos.toSorted(() => 0.5 - Math.random()).slice(0, 10);
-  }
-  if(currentFilter === Filter.discussed) {
-    filteredPictures = photos.toSorted((a,b) => b.comments.length - a.comments.length);
-  }
+const applyFilter = (photos, filter) => {
+  const filteredPictures = Filters[filter || FILTER_DEFAULT](photos);
   debounceRender(filteredPictures);
 };
 
@@ -40,8 +38,8 @@ const getHandleFilter = (photos) => (evt) => {
   }
   activeButton.classList.toggle(ACTIVE_BUTTON_CLASS);
   targetButton.classList.toggle(ACTIVE_BUTTON_CLASS);
-  currentFilter = targetButton.getAttribute('id');
-  applyFilter(photos);
+  const filter = targetButton.getAttribute('id');
+  applyFilter(photos, filter);
 };
 
 export const initFilter = (photos) => {
