@@ -2,9 +2,15 @@ import { isEscapeKey } from './util.js';
 
 const TIMEOUT = 5000;
 
-const successTemplate = document.querySelector('#success').content.querySelector('.success');
-const sendErrorTemplate = document.querySelector('#error').content.querySelector('.error');
-const getErrorTemplate = document.querySelector('#data-error').content.querySelector('.data-error');
+const successTemplate = document
+  .querySelector('#success')
+  .content.querySelector('.success');
+const sendErrorTemplate = document
+  .querySelector('#error')
+  .content.querySelector('.error');
+const getErrorTemplate = document
+  .querySelector('#data-error')
+  .content.querySelector('.data-error');
 
 export const showSuccess = () => {
   const successFragment = document.createDocumentFragment();
@@ -25,11 +31,13 @@ export const showSuccess = () => {
   document.addEventListener('keydown', onSuccessEscKeydown, { once: true });
 
   successElement.addEventListener('click', (evt) => {
-    if(evt.target.className === 'success' && evt.currentTarget.className === 'success') {
+    if (
+      evt.target.className === 'success' &&
+      evt.currentTarget.className === 'success'
+    ) {
       successElement.remove();
     }
   });
-
 };
 
 export const showErrorSending = () => {
@@ -52,11 +60,13 @@ export const showErrorSending = () => {
   document.addEventListener('keydown', handleKeyDown, { once: true });
 
   errorElement.addEventListener('click', (evt) => {
-    if (evt.target.className === 'error' && evt.currentTarget.className === 'error') {
+    if (
+      evt.target.className === 'error' &&
+      evt.currentTarget.className === 'error'
+    ) {
       errorElement.remove();
     }
   });
-
 };
 
 export const showErrorGetting = () => {
@@ -75,8 +85,7 @@ export const showErrorGetting = () => {
 
   document.body.append(errorNotify);
 
-  setTimeout(() =>{
+  setTimeout(() => {
     errorNotify.remove();
   }, TIMEOUT);
 };
-

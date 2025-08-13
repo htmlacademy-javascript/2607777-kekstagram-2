@@ -1,6 +1,8 @@
 import { openBigPhoto } from './render-big-photo.js';
 
-const photoTemplate = document.querySelector('#picture').content.querySelector('.picture');
+const photoTemplate = document
+  .querySelector('#picture')
+  .content.querySelector('.picture');
 const photosContainer = document.querySelector('.pictures');
 const fragment = document.createDocumentFragment();
 let currentPhotos = [];
@@ -18,7 +20,6 @@ const handlePhotoClick = (evt) => {
   }
 };
 
-
 export const renderPhotos = (photos) => {
   clearPhotos();
   currentPhotos = photos;
@@ -28,7 +29,8 @@ export const renderPhotos = (photos) => {
     thumbnail.dataset.pictureId = photo.id;
     thumbnail.querySelector('.picture__img').src = photo.url;
     thumbnail.querySelector('.picture__img').alt = photo.description;
-    thumbnail.querySelector('.picture__comments').textContent = photo.comments.length;
+    thumbnail.querySelector('.picture__comments').textContent =
+      photo.comments.length;
     thumbnail.querySelector('.picture__likes').textContent = photo.likes;
     thumbnail.addEventListener('click', handlePhotoClick);
     fragment.appendChild(thumbnail);

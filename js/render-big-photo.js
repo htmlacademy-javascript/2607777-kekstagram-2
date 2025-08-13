@@ -2,23 +2,25 @@ import { clearComments, renderComments } from './render-comments-photo.js';
 import { isEscapeKey } from './util.js';
 
 const bigPhotoForm = document.querySelector('.big-picture');
-const bigPhotoImgOverlay = bigPhotoForm.querySelector('.big-picture__img').querySelector('img');
+const bigPhotoImgOverlay = bigPhotoForm
+  .querySelector('.big-picture__img')
+  .querySelector('img');
 const bigPhotolikesCount = bigPhotoForm.querySelector('.likes-count');
 const bigPhotoCaption = bigPhotoForm.querySelector('.social__caption');
 const bigPhotoCancelButton = bigPhotoForm.querySelector('.big-picture__cancel');
 
-const bigPictureCancelClick = () =>{
+const bigPictureCancelClick = () => {
   // eslint-disable-next-line no-use-before-define
   closeBigPicture();
 };
 
-const handleKeydown = (evt) =>{
+const handleKeydown = (evt) => {
   isEscapeKey(evt);
   // eslint-disable-next-line no-use-before-define
   closeBigPicture();
 };
 
-const closeBigPicture = () =>{
+const closeBigPicture = () => {
   clearComments();
 
   bigPhotoForm.classList.add('hidden');
@@ -27,7 +29,7 @@ const closeBigPicture = () =>{
   document.removeEventListener('keydown', handleKeydown);
 };
 
-export const openBigPhoto = (photo) =>{
+export const openBigPhoto = (photo) => {
   const currentPhoto = photo;
   bigPhotoImgOverlay.src = currentPhoto.url;
   bigPhotolikesCount.textContent = currentPhoto.likes;

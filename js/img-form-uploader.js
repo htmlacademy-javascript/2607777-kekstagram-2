@@ -1,7 +1,7 @@
 import Pristine from 'pristinejs';
-import {isEscapeKey} from './util.js';
-import {getError, isHashtagsValid, isDescriptionValid} from './validator.js';
-import {applyEffect} from './slider-effects.js';
+import { isEscapeKey } from './util.js';
+import { getError, isHashtagsValid, isDescriptionValid } from './validator.js';
+import { applyEffect } from './slider-effects.js';
 import { sendData } from './api.js';
 import { showSuccess, showErrorSending } from './messages.js';
 
@@ -29,7 +29,7 @@ let currentScale = 1;
 const pristine = new Pristine(form, {
   classTo: 'img-upload__form',
   errorTextParent: 'img-upload__field-wrapper',
-  errorTextClass : 'img-upload__field-wrapper--error',
+  errorTextClass: 'img-upload__field-wrapper--error',
 });
 
 const setImageScale = (scale) => {
@@ -38,20 +38,20 @@ const setImageScale = (scale) => {
 };
 
 const scaleDownImage = () => {
-  if(currentScale > SCALE_STEP){
+  if (currentScale > SCALE_STEP) {
     currentScale -= SCALE_STEP;
     setImageScale(currentScale);
   }
 };
 
 const scaleUpImage = () => {
-  if(currentScale < 1){
+  if (currentScale < 1) {
     currentScale += SCALE_STEP;
     setImageScale(currentScale);
   }
 };
 
-const closeForm = () =>{
+const closeForm = () => {
   document.body.classList.remove('modal-open');
   overlay.classList.add('hidden');
   currentScale = 1;
@@ -65,9 +65,10 @@ const closeForm = () =>{
 };
 
 const handleKeyDown = (evt) => {
-  if (isEscapeKey(evt) &&
-        !evt.target.classList.contains('text__hashtags') &&
-        !evt.target.classList.contains('text__description')
+  if (
+    isEscapeKey(evt) &&
+    !evt.target.classList.contains('text__hashtags') &&
+    !evt.target.classList.contains('text__description')
   ) {
     evt.preventDefault();
     closeForm();
@@ -86,12 +87,12 @@ form.addEventListener('input', () => {
   imgSubmitButton.disabled = !isValid;
 });
 
-const handleFileUpload = () =>{
+const handleFileUpload = () => {
   const file = imgUploadButton.files[0];
   const fileName = file.name.toLowerCase();
   const fileExt = fileName.split('.').pop();
   const matches = FILE_TYPES.includes(fileExt);
-  if(matches) {
+  if (matches) {
     const url = URL.createObjectURL(file);
     img.src = url;
     imgEffectsPreview.forEach((item) => {
@@ -120,20 +121,19 @@ const unblockSubmitButton = () => {
   imgSubmitButton.textContent = 'Опубликовать';
 };
 
-const handleSubmit = (evt) =>{
+const handleSubmit = (evt) => {
   evt.preventDefault();
   blockSubmitButton();
-  sendData(new FormData(evt.target))
-    .then((error) => {
-      unblockSubmitButton();
-      document.removeEventListener('keydown', handleKeyDown);
-      if (error) {
-        showErrorSending();
-        return;
-      }
-      imgUploadFileInput.value = '';
-      closeForm();
-      showSuccess();
-    });
+  sendData(new FormData(evt.target)).then((error) => {
+    unblockSubmitButton();
+    document.removeEventListener('keydown', handleKeyDown);
+    if (error) {
+      showErrorSending();
+      return;
+    }
+    imgUploadFileInput.value = '';
+    closeForm();
+    showSuccess();
+  });
 };
 form.addEventListener('submit', handleSubmit);
