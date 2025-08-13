@@ -1,42 +1,39 @@
-import { openBigPicture } from './render-big-photo.js';
+import { openBigPhoto } from './render-big-photo.js';
 
-const template = document.querySelector('#picture').content.querySelector('.picture');
-const container = document.querySelector('.pictures');
+const photoTemplate = document
+  .querySelector('#picture')
+  .content.querySelector('.picture');
+const photosContainer = document.querySelector('.pictures');
 const fragment = document.createDocumentFragment();
+let currentPhotos = [];
 
 const clearPhotos = () => {
   document.querySelectorAll('a.picture').forEach((item) => item.remove());
 };
 
-let currentPhotos = [];
-
-const onPictureClick = (evt) => {
-  const target = evt.target.closest('.picture');
-  if (!target) {
-    return;
-  }
-
-  const id = Number(target.dataset.pictureId);
+const handlePhotoClick = (evt) => {
+  const targetPhoto = evt.target.closest('.picture');
+  const id = Number(targetPhoto.dataset.pictureId);
   const photo = currentPhotos.find((p) => p.id === id);
   if (photo) {
-    openBigPicture(photo);
+    openBigPhoto(photo);
   }
 };
 
-export const renderPhoto = (photos) => {
+export const renderPhotos = (photos) => {
   clearPhotos();
   currentPhotos = photos;
 
   currentPhotos.forEach((photo) => {
-    const thumbnail = template.cloneNode(true);
+    const thumbnail = photoTemplate.cloneNode(true);
     thumbnail.dataset.pictureId = photo.id;
     thumbnail.querySelector('.picture__img').src = photo.url;
     thumbnail.querySelector('.picture__img').alt = photo.description;
-    thumbnail.querySelector('.picture__comments').textContent = photo.comments.length;
+    thumbnail.querySelector('.picture__comments').textContent =
+      photo.comments.length;
     thumbnail.querySelector('.picture__likes').textContent = photo.likes;
+    thumbnail.addEventListener('click', handlePhotoClick);
     fragment.appendChild(thumbnail);
   });
-
-  container.appendChild(fragment);
-  container.addEventListener('click',onPictureClick);
+  photosContainer.appendChild(fragment);
 };

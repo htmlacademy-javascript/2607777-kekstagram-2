@@ -1,106 +1,110 @@
-const imgUploadWrapper = document.querySelector('.img-upload__wrapper');
-const slider = imgUploadWrapper.querySelector('.effect-level__slider');
-const effectLevel = imgUploadWrapper.querySelector('.img-upload__effect-level');
-const effectLevelValue = imgUploadWrapper.querySelector('.effect-level__value');
-const img = imgUploadWrapper.querySelector('.img-upload__preview');
+const imgUploadWrapperOverlay = document.querySelector('.img-upload__wrapper');
+const slider = imgUploadWrapperOverlay.querySelector('.effect-level__slider');
+const effectLevelOverlay = imgUploadWrapperOverlay.querySelector(
+  '.img-upload__effect-level'
+);
+const effectLevelValue = imgUploadWrapperOverlay.querySelector(
+  '.effect-level__value'
+);
+const img = imgUploadWrapperOverlay.querySelector('.img-upload__preview');
+const imgPosition = img.firstElementChild;
 
 noUiSlider.create(slider, {
-  start:0,
+  start: 0,
   connect: 'lower',
-  range:{
-    'min': 0,
-    'max': 1
+  range: {
+    min: 0,
+    max: 1,
   },
-  format:{
-    to: (value) => Number.isInteger(value)
-      ? value.toFixed(0)
-      : value.toFixed(1),
-    from: (value) => parseFloat(value)
+  format: {
+    to: (value) =>
+      Number.isInteger(value) ? value.toFixed(0) : value.toFixed(1),
+    from: (value) => parseFloat(value),
   },
 });
 
-slider.noUiSlider.on('update', () =>{
+slider.noUiSlider.on('update', () => {
   effectLevelValue.value = slider.noUiSlider.get();
 });
 
-effectLevel.classList.add('hidden');
+effectLevelOverlay.classList.add('hidden');
 
-export const applyEffect = (evt) =>{
+export const applyEffect = (evt) => {
   const effect = evt.target.value;
 
   if (effect === 'none') {
-    effectLevel.classList.add('hidden');
-  }else {
-    effectLevel.classList.remove('hidden');
+    effectLevelOverlay.classList.add('hidden');
+  } else {
+    effectLevelOverlay.classList.remove('hidden');
   }
 
   switch (effect) {
     case 'none':
-      img.style.filter = 'none';
+      imgPosition.style.filter = 'none';
       break;
     case 'chrome':
       slider.noUiSlider.updateOptions({
-        range:{
-          min:0,
-          max:1
+        range: {
+          min: 0,
+          max: 1,
         },
-        start : 0,
-        step: 0.1
+        start: 1,
+        step: 0.1,
       });
-      slider.noUiSlider.on('update', () =>{
-        img.style.filter = `grayscale(${effectLevelValue.value})`;
+      slider.noUiSlider.on('update', () => {
+        imgPosition.style.filter = `grayscale(${effectLevelValue.value})`;
       });
       break;
     case 'sepia':
       slider.noUiSlider.updateOptions({
-        range:{
-          min:0,
-          max:1
+        range: {
+          min: 0,
+          max: 1,
         },
-        start : 0,
-        step: 0.1
+        start: 1,
+        step: 0.1,
       });
-      slider.noUiSlider.on('update', () =>{
-        img.style.filter = `sepia(${effectLevelValue.value})`;
+      slider.noUiSlider.on('update', () => {
+        imgPosition.style.filter = `sepia(${effectLevelValue.value})`;
       });
       break;
     case 'marvin':
       slider.noUiSlider.updateOptions({
-        range:{
-          min:0,
-          max:100
+        range: {
+          min: 0,
+          max: 100,
         },
-        start : 0,
-        step: 1
+        start: 100,
+        step: 1,
       });
-      slider.noUiSlider.on('update', () =>{
-        img.style.filter = `invert(${effectLevelValue.value}%)`;
+      slider.noUiSlider.on('update', () => {
+        imgPosition.style.filter = `invert(${effectLevelValue.value}%)`;
       });
       break;
     case 'phobos':
       slider.noUiSlider.updateOptions({
-        range:{
-          min:0,
-          max:3
+        range: {
+          min: 0,
+          max: 3,
         },
-        start : 0,
-        step: 0.1
+        start: 3,
+        step: 0.1,
       });
-      slider.noUiSlider.on('update', () =>{
-        img.style.filter = `blur(${effectLevelValue.value}px)`;
+      slider.noUiSlider.on('update', () => {
+        imgPosition.style.filter = `blur(${effectLevelValue.value}px)`;
       });
       break;
     case 'heat':
       slider.noUiSlider.updateOptions({
-        range:{
-          min:1,
-          max:3
+        range: {
+          min: 1,
+          max: 3,
         },
-        start : 1,
-        step: 0.1
+        start: 3,
+        step: 0.1,
       });
-      slider.noUiSlider.on('update', () =>{
-        img.style.filter = `brightness(${effectLevelValue.value})`;
+      slider.noUiSlider.on('update', () => {
+        imgPosition.style.filter = `brightness(${effectLevelValue.value})`;
       });
   }
 };

@@ -1,50 +1,72 @@
-import {debounce} from './util.js';
+import { debounce } from './util.js';
 
-import { renderPhoto } from './render-photo.js';
-
-const FILTER = {
-  default:'filter-default',
-  random: 'filter-random',
-  discussed: 'filter-discussed'
-};
-
-let currentFilter = FILTER.default;
+const ACTIVE_BUTTON_CLASS = 'img-filters__button--active';
+const DEFAULT_FILTER = 'filter-default';
+const RANDOM_FILTER = 'filter-random';
+const DISCUSSED_FILTER = 'filter-discussed';
+const RANDOM_FILTER_LIMIT = 10;
 
 const filterPanel = document.querySelector('.img-filters');
-const ACTIVE_BUTTON_CLASS = 'img-filters__button--active';
 
-const debounceRender = debounce(renderPhoto);
+const filterDefault = (photos) => photos;
+const filterDiscused = (photos) =>
+  photos.toSorted((a, b) => b.comments.length - a.comments.length);
+const filterRandom = (photos) =>
+  [...photos].sort(() => Math.random() - 0.5).slice(0, RANDOM_FILTER_LIMIT);
 
-const applyFilter = (photos) => {
-  let filteredPictures = [];
-  if(currentFilter === FILTER.default) {
-    filteredPictures = photos;
-  }
-  if(currentFilter === FILTER.random) {
-    filteredPictures = photos.toSorted(() => 0.5 - Math.random()).slice(0, 10);
-  }
-  if(currentFilter === FILTER.discussed) {
-    filteredPictures = photos.toSorted((a,b) => b.comments.length - a.comments.length);
-  }
-  debounceRender(filteredPictures);
+const Filters = {
+  [DEFAULT_FILTER]: filterDefault,
+  [RANDOM_FILTER]: filterRandom,
+  [DISCUSSED_FILTER]: filterDiscused,
 };
 
-const getHandleFilter = (photos) => (evt) => {
+const filter = (photos, type) => {
+  if (!photos.length) {
+    return [];
+  }
+  const filterByType = Filters[type] || Filters.DEFAULT_FILTER;
+  return filterByType(photos);
+};
+
+const state = {
+  type: DEFAULT_FILTER,
+  photos: [],
+  debounceRender: null,
+  render: null
+};
+
+const handleFilter = (evt) => {
   const targetButton = evt.target;
   const activeButton = document.querySelector(`.${ACTIVE_BUTTON_CLASS}`);
+
   if (!targetButton.matches('button')) {
     return;
   }
+
   if (activeButton === targetButton) {
     return;
   }
+
   activeButton.classList.toggle(ACTIVE_BUTTON_CLASS);
   targetButton.classList.toggle(ACTIVE_BUTTON_CLASS);
-  currentFilter = targetButton.getAttribute('id');
-  applyFilter(photos);
+  state.type = targetButton.getAttribute('id');
+
+  if (!state.photos.length) {
+    return;
+  }
+  const filteredPictures = filter(state.photos, state.type);
+  state.debounceRender(filteredPictures);
 };
 
-export const initFilter = (photos) => {
+export const initFilter = (render) => {
+  state.debounceRender = debounce(render);
+  state.render = render;
+  filterPanel.addEventListener('click', handleFilter);
+};
+
+export const setPhotos = (data) => {
+  state.photos = [...data];
+  state.type = DEFAULT_FILTER;
+  state.render(filter(state.photos, state.type));
   filterPanel.classList.remove('img-filters--inactive');
-  filterPanel.addEventListener('click', getHandleFilter(photos));
 };
