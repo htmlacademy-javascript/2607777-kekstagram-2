@@ -1,5 +1,4 @@
 import { debounce } from './util.js';
-import { renderPhotos } from './render-photo.js';
 
 const ACTIVE_BUTTON_CLASS = 'img-filters__button--active';
 const DEFAULT_FILTER = 'filter-default';
@@ -33,6 +32,7 @@ const state = {
   type: DEFAULT_FILTER,
   photos: [],
   debounceRender: null,
+  render: null
 };
 
 const handleFilter = (evt) => {
@@ -58,14 +58,15 @@ const handleFilter = (evt) => {
   state.debounceRender(filteredPictures);
 };
 
-export const initFilter = (callback) => {
-  state.debounceRender = debounce(callback);
+export const initFilter = (render) => {
+  state.debounceRender = debounce(render);
+  state.render = render;
   filterPanel.addEventListener('click', handleFilter);
 };
 
 export const setPhotos = (data) => {
   state.photos = [...data];
   state.type = DEFAULT_FILTER;
-  renderPhotos(filter(state.photos, state.type));
+  state.render(filter(state.photos, state.type));
   filterPanel.classList.remove('img-filters--inactive');
 };
