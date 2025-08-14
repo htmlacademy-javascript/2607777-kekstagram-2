@@ -5,7 +5,7 @@ const bigPhotoForm = document.querySelector('.big-picture');
 const bigPhotoImgOverlay = bigPhotoForm
   .querySelector('.big-picture__img')
   .querySelector('img');
-const bigPhotolikesCount = bigPhotoForm.querySelector('.likes-count');
+const bigPhotoLikesCount = bigPhotoForm.querySelector('.likes-count');
 const bigPhotoCaption = bigPhotoForm.querySelector('.social__caption');
 const bigPhotoCancelButton = bigPhotoForm.querySelector('.big-picture__cancel');
 
@@ -32,7 +32,7 @@ const closeBigPicture = () => {
 export const openBigPhoto = (photo) => {
   const currentPhoto = photo;
   bigPhotoImgOverlay.src = currentPhoto.url;
-  bigPhotolikesCount.textContent = currentPhoto.likes;
+  bigPhotoLikesCount.textContent = currentPhoto.likes;
   bigPhotoCaption.textContent = currentPhoto.description;
 
   renderComments(currentPhoto.comments);
