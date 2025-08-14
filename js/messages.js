@@ -71,18 +71,6 @@ export const showErrorSending = () => {
 
 export const showErrorGetting = () => {
   const errorNotify = getErrorTemplate.cloneNode(true);
-  const errorTitle = errorNotify.querySelector('.data-error__title');
-
-  errorTitle.style.zIndex = '100';
-  errorTitle.style.position = 'absolute';
-  errorTitle.style.left = '0';
-  errorTitle.style.top = '0';
-  errorTitle.style.right = '0';
-  errorTitle.style.padding = '10px 3px';
-  errorTitle.style.fontSize = '20px';
-  errorTitle.style.textAlign = 'center';
-  errorTitle.style.backgroundColor = 'red';
-
   document.body.append(errorNotify);
 
   setTimeout(() => {

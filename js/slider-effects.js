@@ -24,7 +24,7 @@ noUiSlider.create(slider, {
 });
 
 slider.noUiSlider.on('update', () => {
-  effectLevelValue.value = slider.noUiSlider.get();
+  effectLevelValue.value = Number(slider.noUiSlider.get());
 });
 
 effectLevelOverlay.classList.add('hidden');
