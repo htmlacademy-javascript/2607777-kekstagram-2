@@ -12,7 +12,6 @@ const errors = {
 
 export const getError = () => Object.values(errors).filter(Boolean).join(' и ');
 
-
 export const isHashtagsValid = (value) => {
   errors.hashtags = '';
   const isDescriptonError = !errors.description.length;
