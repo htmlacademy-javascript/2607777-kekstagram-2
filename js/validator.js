@@ -5,8 +5,6 @@ const MAX_SYMBOLS_HASHTAG = 20;
 const MAX_SYMBOLS_COMMENT = 140;
 const TEXT_LENGTH_MOST_BE_LESS_OR_EQUAL = 'Длина текста должна быть меньше или равна 140 символов';
 
-//let errorMessage = '';
-
 const errors = {
   hashtags: '',
   description: ''
