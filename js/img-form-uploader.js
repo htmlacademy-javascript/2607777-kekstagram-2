@@ -1,6 +1,12 @@
 import Pristine from 'pristinejs';
 import { isEscapeKey } from './util.js';
-import { getError, isHashtagsValid, isDescriptionValid } from './validator.js';
+import {
+  getErrorByField,
+  isHashtagsValid,
+  isDescriptionValid,
+  HASHTAGS_FIELD,
+  DESCRIPTION_FIELD
+} from './validator.js';
 import { applyEffect } from './slider-effects.js';
 import { sendData } from './api.js';
 import { showSuccess, showErrorSending } from './messages.js';
@@ -27,7 +33,7 @@ const descriptionInput = form.querySelector('.text__description');
 let currentScale = 1;
 
 const pristine = new Pristine(form, {
-  classTo: 'img-upload__form',
+  classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',
   errorTextClass: 'img-upload__field-wrapper--error',
 });
@@ -59,12 +65,12 @@ const closeForm = () => {
   effectLevel.classList.add('hidden');
   img.style.filter = 'none';
   form.reset();
-  // eslint-disable-next-line no-use-before-define
   document.removeEventListener('keydown', handleKeyDown);
   cancelButton.removeEventListener('click', closeForm);
+  pristine.reset();
 };
 
-const handleKeyDown = (evt) => {
+function handleKeyDown(evt) {
   if (
     isEscapeKey(evt) &&
     !evt.target.classList.contains('text__hashtags') &&
@@ -73,7 +79,7 @@ const handleKeyDown = (evt) => {
     evt.preventDefault();
     closeForm();
   }
-};
+}
 
 const openForm = () => {
   document.body.classList.add('modal-open');
@@ -104,8 +110,8 @@ const handleFileUpload = () => {
 
 imgSubmitButton.disabled = !pristine.validate();
 
-pristine.addValidator(hashtagInput, isHashtagsValid, getError, 2, false);
-pristine.addValidator(descriptionInput, isDescriptionValid, getError, 2, false);
+pristine.addValidator(hashtagInput, isHashtagsValid, getErrorByField(HASHTAGS_FIELD), 2, false);
+pristine.addValidator(descriptionInput, isDescriptionValid, getErrorByField(DESCRIPTION_FIELD), 2, false);
 imgUploadFileInput.addEventListener('change', handleFileUpload);
 smallerButton.addEventListener('click', scaleDownImage);
 biggerButton.addEventListener('click', scaleUpImage);
